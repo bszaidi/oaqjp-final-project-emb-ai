@@ -1,20 +1,23 @@
-from flask import Flask, request, jsonify, render_template
+"""
+Flask server for Emotion Detection API
+"""
+from flask import Flask, request, render_template
 from EmotionDetection.emotion_detection import emotion_detector
 
 app = Flask(__name__)
 
 @app.route("/")
 def render_index_page():
+    """Render the index.html page."""
     return render_template('index.html')
 
 @app.route('/emotionDetector')
 def emotion_detector_api():
+    """API endpoint to analyze emotions from text."""
     text_to_analyze = request.args.get('textToAnalyze')
     emotions = emotion_detector(text_to_analyze)
-    
     if emotions['dominant_emotion'] is None:
         return "Invalid text! Please try again!"
-        
     # Format response as per requirements
     response_text = (
         f"For the given statement, the system response is "
