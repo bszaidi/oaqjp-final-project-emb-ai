@@ -11,7 +11,10 @@ def render_index_page():
 def emotion_detector_api():
     text_to_analyze = request.args.get('textToAnalyze')
     emotions = emotion_detector(text_to_analyze)
-
+    
+    if emotions['dominant_emotion'] is None:
+        return "Invalid text! Please try again!"
+        
     # Format response as per requirements
     response_text = (
         f"For the given statement, the system response is "
